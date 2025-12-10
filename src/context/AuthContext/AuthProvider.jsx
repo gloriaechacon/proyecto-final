@@ -1,4 +1,5 @@
-import { AuthContex } from "./AuthContext"
+import { useState } from "react";
+import { AuthContext } from "./AuthContext"
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(() => {
@@ -6,11 +7,10 @@ export const AuthProvider = ({ children }) => {
         return saved ? JSON.parse(saved) : null;
     });
 
-    const login = (name) => {
+    const login = (name, password) => {
         if (name == "admin" && password == "1234") {
             const session = { name };
             setUser(session);
-
             sessionStorage.setItem("session", JSON.stringify(session));
             return true;
         }
@@ -24,8 +24,8 @@ export const AuthProvider = ({ children }) => {
     }
 
     return (
-        <AuthContex.Provider value={{user, login, logout}}>
+        <AuthContext.Provider value={{user, login, logout}}>
             {children}
-        </AuthContex.Provider>
+        </AuthContext.Provider>
     )
 }
